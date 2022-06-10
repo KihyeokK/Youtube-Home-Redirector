@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "Youtube-Home-Redirector",
+    "description": "Redirects Youtube Home Page to another page.",
+    "version": "0.1.0",
+    "icons": {"128": "youtube_redirect_logo.png"},
+    
+    "action": {
+        "default_icon": "youtube_redirect_logo.png",
+        "default_popup": "popup.html"
+    },
+    "permissions": ["webRequest", "activeTab", "storage", "tabs"]
+
+  }
