@@ -1,0 +1,19 @@
+[
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "regexSubstitution": "https://www.youtube.com/results?search_query=proramming",
+                "url": "https://www.youtube.com/results?search_query=proramming"
+            }
+        },
+        "condition": {
+            "regexFilter": "https://www.youtube.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    }
+]
