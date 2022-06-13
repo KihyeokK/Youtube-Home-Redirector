@@ -1,24 +1,18 @@
 const youtubeUrl = "https://www.youtube.com";
-const newUrl = "https://www.youtube.com/results?search_query=programming";
 
+// Making sure currentUrl is present in storage from the beginning
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.set({ youtubeUrl });
+  chrome.storage.sync.set({"urls": {"currentUrl": youtubeUrl, "redirectUrl": ""}})
+    // redirectUrl is used to keep track of redirect URL even when user exits
+    // extension page while toggle is off.
     console.log(youtubeUrl)
   });
 
-// const filter = {urls: ["https://*/*"], types: ['main_frame', 'sub_frame']};
-// chrome.webRequest.onBeforeRequest.addListener(redirect, filter, ["blocking"]);
-
-// function redirect(details) {
-//     console.log("yeah", details);
-//     return { redirectUrl: newUrl };
-// }
-
-
+// Updating URL for redirecting
 chrome.storage.onChanged.addListener((changes, namespace) => {
     console.log(changes);
     console.log(namespace);
-    const newUrl = changes.currentUrl.newValue;
+    const newUrl = changes.urls.newValue.currentUrl;
     console.log(newUrl);
     chrome.declarativeNetRequest.updateDynamicRules(
       {addRules:[{
@@ -31,7 +25,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
             }
         },
         "condition": {
-            "regexFilter": "https://www.youtube.com/",
+            "regexFilter": "^https://www\\.youtube\\.com/$",
             "resourceTypes": [
                 "main_frame"
             ]
