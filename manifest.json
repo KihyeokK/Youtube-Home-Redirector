@@ -7,13 +7,7 @@
     "background": {
         "service_worker": "background.js",
         "runAt": "document_start"
-      },  
-    "content_scripts": [
-        {
-            "matches": ["http://*/*", "https://*/*"],
-            "js": ["contentScript.js"]
-        }
-    ],
+      },
     "action": {
         "default_icon": "youtube_redirect_logo.png",
         "default_popup": "popup.html"
@@ -27,7 +21,6 @@
             }
         ]
     },
-    "permissions": ["webRequest", "activeTab", "storage", "tabs", "declarativeNetRequest"],
+    "permissions": ["storage", "declarativeNetRequest"],
     "host_permissions": ["*://*/*"]
-
   }

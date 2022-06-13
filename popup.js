@@ -6,13 +6,6 @@ const changeUrlDiv = document.querySelector(".changeUrl");
 const youtubeUrl = "https://www.youtube.com";
 let redirectUrl = "";
 
-console.log(form.elements[0].value);
-console.log(currentUrlSpan);
-console.log(checkBox.checked);
-
-
-
-
 //Making sure current redirect URL is displayed
 chrome.storage.sync.get(['urls'], (result) => {
     redirectUrl = result.urls.currentUrl;
@@ -22,9 +15,9 @@ chrome.storage.sync.get(['urls'], (result) => {
         checkBox.checked = false;
         changeUrlDiv.style.display = "none";
         chrome.storage.sync.get(['urls'], (res) => {
-            // update redirectUrl for later use 
+            // Update redirectUrl for later use.
+            // This redirectUrl is the previous redirect URL entered by user.
             redirectUrl = res.urls.redirectUrl;
-            console.log(redirectUrl, "inside")
         })
     } else {
         currentUrlSpan.innerText = result.urls.currentUrl;
@@ -36,34 +29,34 @@ chrome.storage.sync.get(['urls'], (result) => {
 
 checkBox.addEventListener("change", () => {
     isToggleOn(checkBox);
-})
+});
 
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
-    redirectUrl = form.elements[0].value
-    if (isValidHttpUrl(redirectUrl)){
-        chrome.storage.sync.set({"urls": {"currentUrl": redirectUrl, "redirectUrl": redirectUrl}})
-        currentUrlSpan.innerText = redirectUrl
+    let newUrl = form.elements[0].value;
+    if (isValidHttpUrl(newUrl)){
+        redirectUrl = newUrl;
+        chrome.storage.sync.set({"urls": {"currentUrl": redirectUrl, "redirectUrl": redirectUrl}});
+        currentUrlSpan.innerText = redirectUrl;
     } else {
-        event.preventDefault();
-        // alert?
+        alert("Please enter a valid URL.");
     }
-})
+});
 
 
 function isToggleOn(checkBox) {
     if (checkBox.checked) {
         changeUrlDiv.style.display = "flex";
         if (redirectUrl) {
-            chrome.storage.sync.set({"urls": {"currentUrl": redirectUrl, "redirectUrl": redirectUrl}})
-            currentUrlSpan.innerText = redirectUrl
+            chrome.storage.sync.set({"urls": {"currentUrl": redirectUrl, "redirectUrl": redirectUrl}});
+            currentUrlSpan.innerText = redirectUrl;
         }
     } else {
         // When toggle off, redirect to default youtube URL
         changeUrlDiv.style.display = "none";
-        chrome.storage.sync.set({"urls": {"currentUrl": youtubeUrl, "redirectUrl": redirectUrl}})
-        currentUrlSpan.innerText = "Default Youtube URL"
+        chrome.storage.sync.set({"urls": {"currentUrl": youtubeUrl, "redirectUrl": redirectUrl}});
+        currentUrlSpan.innerText = "Default Youtube URL";
     }
 }
 
@@ -76,7 +69,7 @@ function isValidHttpUrl(string) {
     } catch (err) {
       return false;  
     }
-  
+
     return true;
   }
 
