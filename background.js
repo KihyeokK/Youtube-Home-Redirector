@@ -15,9 +15,31 @@ chrome.runtime.onInstalled.addListener(() => {
 // }
 
 
-// chrome.storage.onChanged.addListener(
+chrome.storage.onChanged.addListener((changes, namespace) => {
+    console.log(changes);
+    console.log(namespace);
+    const newUrl = changes.currentUrl.newValue;
+    console.log(newUrl);
+    chrome.declarativeNetRequest.updateDynamicRules(
+      {addRules:[{
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "url": newUrl
+            }
+        },
+        "condition": {
+            "regexFilter": "https://www.youtube.com/",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    }
+       ],
+       removeRuleIds: [1]
+     }
+    )
+})
 
-// )
-
-
-// function updateRedirectUrl

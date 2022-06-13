@@ -5,7 +5,6 @@
         "action": {
             "type": "redirect",
             "redirect": {
-                "regexSubstitution": "https://www.youtube.com/results?search_query=programming",
                 "url": "https://www.youtube.com/results?search_query=programming"
             }
         },
